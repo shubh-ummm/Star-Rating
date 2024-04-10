@@ -39,7 +39,7 @@ const Star_Rating = ({ noOfStars = 5 }) => {
         return (
           <FaStar
             key={index}
-            className={index <= (rating || hover) ? "active" : "inactive"}
+            className={index <= (hover || rating) ? "active" : "inactive"}
             onClick={() => handleClick(index)}
             onMouseMove={() => handleMouseMove(index)}
             onMouseLeave={handleMouseLeave}
