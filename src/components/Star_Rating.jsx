@@ -1,45 +1,55 @@
-import React, { useState } from "react"; // Import React and useState hook
-import { FaStar } from "react-icons/fa"; // Import FaStar icon from react-icons/fa
-import './styles.css'; // Import external CSS file for styling
+import React, { useState } from "react";
+import { FaStar } from "react-icons/fa";
+import "./styles.css";
 
-export default function StarRating({ noOfStars = 5 }) { // Define functional component StarRating, accepting props with a default value of 5 for noOfStars
-  const [rating, setRating] = useState(0); // Initialize state variable rating with initial value of 0 using useState hook
-  const [hover, setHover] = useState(0); // Initialize state variable hover with initial value of 0 using useState hook
+const Star_Rating = ({ noOfStars = 5 }) => {
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
 
-  // Function to handle click event on a star
-  function handleClick(index) {
-    setRating(index);
-    console.log("handleClick",rating); // Update rating state with the index of the clicked star
-  }
+  const starMessages = [
+    // 1 Star Rating
+    "Yikes! We'll send this one back to the drawing board. Thanks for your cosmic feedback!",
+    // 2 Star Rating
+    "Hmm, looks like we're not everyone's cup of rocket fuel. Your honesty fuels our journey!",
+    // 3 Star Rating
+    "Not quite intergalactic, but hey, we're still exploring the cosmos together!",
+    // 4 Star Rating
+    "Almost at warp speed! Your feedback lights our rockets as we journey through the stars!",
+    // 5 Star Rating
+    "Blast off! Thanks for launching us into the stratosphere with your stellar rating!",
+  ];
 
-  // Function to handle mouse enter event on a star
-  function handleMouseEnter(index) {
-    setHover(index); // Update hover state with the index of the hovered star
-    console.log("handleMouseEnter",rating);
-  }
+  const handleClick = (currentIndex) => {
+    setRating(currentIndex);
+  };
 
-  // Function to handle mouse leave event
-  function handleMouseLeave() {
-    setHover(rating); // Reset hover state to rating when mouse leaves the star rating component
-    console.log("handleMouseLeave",rating);
-  }
+  const handleMouseMove = (currentIndex) => {
+    setHover(currentIndex);
+  };
+
+  const handleMouseLeave = () => {
+    setHover(rating);
+  };
 
   return (
-    <div className="star-rating"> {/* Render a div with class name "star-rating" */}
-      {[...Array(noOfStars)].map((_, index) => { // Map over an array of length noOfStars
-        index += 1; // Increment index by 1 (as index starts from 0)
+    <div className="star-rating">
+      {[...Array(noOfStars)].map((_, index) => {
+        index += 1;
 
         return (
-          <FaStar // Render FaStar component from react-icons/fa
-            key={index} // Set unique key for each star
-            className={index <= (hover || rating) ? "active" : "inactive"} // Apply active or inactive class based on hover or rating state
-            onClick={() => handleClick(index)} // Handle click event on star
-            onMouseMove={() => handleMouseEnter(index)} // Handle mouse enter event on star
-            onMouseLeave={() => handleMouseLeave()} // Handle mouse leave event on star rating component
-            size={40} // Set size of the star
+          <FaStar
+            key={index}
+            className={index <= (rating || hover) ? "active" : "inactive"}
+            onClick={() => handleClick(index)}
+            onMouseMove={() => handleMouseMove(index)}
+            onMouseLeave={handleMouseLeave}
+            size={50}
           />
         );
       })}
+      {rating > 0 && <h2>{starMessages[rating - 1]}</h2>}
     </div>
   );
-}
+};
+
+export default Star_Rating;
